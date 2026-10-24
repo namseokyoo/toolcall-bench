@@ -1,0 +1,135 @@
+{
+ "run_id": "results/diet-kanban-quick",
+ "model": "qwen3.8-flash-next-gyro-gyro-s",
+ "records": [
+  {
+   "id": "S1",
+   "category": "single",
+   "arm": "B",
+   "score": 1.0,
+   "wall_seconds": 46.39,
+   "answer": "회의 날짜는 10월 30일 오후 2시입니다. (장소: 3층 회의실, 준비물: 노트북)",
+   "calls": [
+    {
+     "tool_events_observed": 2
+    }
+   ],
+   "violations": [],
+   "extra": {
+    "tokens": {
+     "input": 48407,
+     "output": 87,
+     "total": 48494,
+     "cache_read": 24177,
+     "cache_write": 0
+    },
+    "duration_ms": 45800,
+    "event_types": {
+     "system": 1,
+     "tool_use": 1,
+     "tool_result": 1,
+     "text": 34,
+     "result": 1
+    }
+   },
+   "checks": [
+    {
+     "check": {
+      "text": "10월 30일",
+      "type": "answer_contains"
+     },
+     "pass": true,
+     "detail": "answer contains"
+    }
+   ]
+  },
+  {
+   "id": "M2",
+   "category": "multi",
+   "arm": "B",
+   "score": 1.0,
+   "wall_seconds": 52.8,
+   "answer": "완료했습니다. contacts.txt에서 이메일 3개를 추출해 emails.txt에 한 줄씩 기록했습니다:\n\n- minsu@example.com\n- jiyoung@test.org\n- admin@sample.net\n\n이메일 없는 항목(박철수)은 제외했습니다. 파일 경로: /Users/namseokyoo/toolcall-bench/results/diet-kanban-quick/runs/B/M2/sandbox/emails.txt",
+   "calls": [
+    {
+     "tool_events_observed": 4
+    }
+   ],
+   "violations": [],
+   "extra": {
+    "tokens": {
+     "input": 72925,
+     "output": 216,
+     "total": 73141,
+     "cache_read": 48471,
+     "cache_write": 0
+    },
+    "duration_ms": 52191,
+    "event_types": {
+     "system": 1,
+     "tool_use": 2,
+     "tool_result": 2,
+     "text": 81,
+     "result": 1
+    }
+   },
+   "checks": [
+    {
+     "check": {
+      "content": "minsu@example.com\njiyoung@test.org\nadmin@sample.net",
+      "path": "emails.txt",
+      "type": "file_equals"
+     },
+     "pass": true,
+     "detail": "content='minsu@example.com\\njiyoung@test.org\\nadmin@sample.net'"
+    }
+   ]
+  },
+  {
+   "id": "N1",
+   "category": "nocall",
+   "arm": "B",
+   "score": 1.0,
+   "wall_seconds": 44.84,
+   "answer": "대한민국의 수도는 서울입니다.",
+   "calls": [
+    {
+     "tool_events_observed": 0
+    }
+   ],
+   "violations": [],
+   "extra": {
+    "tokens": {
+     "input": 24121,
+     "output": 9,
+     "total": 24130,
+     "cache_read": 0,
+     "cache_write": 0
+    },
+    "duration_ms": 44215,
+    "event_types": {
+     "system": 1,
+     "text": 8,
+     "result": 1
+    }
+   },
+   "checks": [
+    {
+     "check": {
+      "text": "서울",
+      "type": "answer_contains"
+     },
+     "pass": true,
+     "detail": "answer contains"
+    },
+    {
+     "check": {
+      "type": "no_tool_calls"
+     },
+     "pass": true,
+     "detail": "0 tool calls made"
+    }
+   ]
+  }
+ ]
+}
