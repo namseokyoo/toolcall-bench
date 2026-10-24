@@ -7,6 +7,14 @@
 
 측정 질문: **"Hermes 레이어는 툴콜링을 올려주는가, 내리는가?"**
 
+## Hermes 다이어트 진행 상황
+
+이 벤치로 oxalpha 프로필의 고정 프롬프트 다이어트를 단계별로 검증하고 있다. 상세 계획·기록은 [PLAN-diet.md](PLAN-diet.md).
+
+- 고정 바닥(N1 입력) 30,186 → **20,061 토큰 (−33.6%)**, B 총점 23.0 유지 (2026-10-25 기준)
+- 완료: 칸반 툴셋 제거(`results/diet-kanban-quick`) · 1단계 스킬 정리(`results/diet-step1-skills`) · 3단계 도구 정리(`results/diet-step3-tools`)
+- 남음: 2단계 SOUL · 4단계 메모리 (사용자 승인 후 진행), 5단계 마감 전체 재실행
+
 ## 설계 원칙
 
 1. **요청(prompt)과 채점은 양쪽 동일.** 시나리오는 `scenarios.json` 하나에서만 관리한다.
