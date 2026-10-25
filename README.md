@@ -15,6 +15,12 @@
 - 완료: 칸반 툴셋 제거(`results/diet-kanban-quick`) · 1단계 스킬 정리(`results/diet-step1-skills`) · 3단계 도구 정리(`results/diet-step3-tools`)
 - 남음: 2단계 SOUL · 4단계 메모리 (사용자 승인 후 진행), 5단계 마감 전체 재실행
 
+## 엔진 체크 (engine-checks/)
+
+벤더가 공개한 엔진 수치를 내 기기에서 재현해 보는 별도 트랙. 하니스 결과가 아니며, 조건(상주 서비스·튜닝 상태)을 그대로 명시한다.
+
+- **Locals 0.2.1 내장 벤치** (맥미니 M5 Pro 64GB, Qwen3.5-4B-MLX-4bit, 2026-10-26): 동시 1/2/4/8에서 mlx-lm 대비 1.78x/1.30x/1.42x/1.23x. README 주장 8동시 1.48x는 커널 미튜닝·Strata 상주 조건에서 재현 안 됨 — [engine-checks/locals-2026-10-26](engine-checks/locals-2026-10-26)
+
 ## 설계 원칙
 
 1. **요청(prompt)과 채점은 양쪽 동일.** 시나리오는 `scenarios.json` 하나에서만 관리한다.
