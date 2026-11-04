@@ -34,4 +34,8 @@ toolcall-bench 하니스 A암(24개 시나리오, temperature 0)으로 비교했
 
 측정 범위(단일 요청 순차 실행)에서는 DFlash2가 점수 동등, 속도 우세.
 동시 요청 조건에서의 DFlash2 동작은 이 측정으로 확인되지 않았다(운용 게이트웨이의 동시 호출이 잦지 않다는 전제에서 별도 확인 항목으로 남김).
-운용 서버의 드래프터 전환 여부는 이 결과를 보고 사용자가 결정한다.
+
+## 운용 전환 (2026-11-04, 사용자 결정)
+
+- 같은 날 운용 서버(:8080)도 DFlash2로 전환했다. config 인자를 8081 검증본과 동일하게 교체 (`--draft dflash2 --draft-model <pack> --draft-fallback none --mtp-draft-vocab <vocab> --spec 6 --draft-conf 0.8`), MTP config는 `strata-gyro-gyro-s.json.bak-mtp-20261104`로 백업.
+- 전환 직후 동시 3요청 스모크 테스트 정상 완료 (요청당 디코드 40.9 / 45.8 / 46.4 tok/s) — 위의 동시 요청 미확인 항목은 이로써 해소.
