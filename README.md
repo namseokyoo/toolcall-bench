@@ -7,19 +7,29 @@
 
 측정 질문: **"Hermes 레이어는 툴콜링을 올려주는가, 내리는가?"**
 
-## Hermes 다이어트 진행 상황
+다이어트 마감(2026-11-08) 이후에는 같은 하니스를 타 모델 대결, 공인 벤치 병행 측정, 엔진 체크로 확장해 쓰고 있다 (아래 "확장 트랙").
 
-이 벤치로 oxalpha 프로필의 고정 프롬프트 다이어트를 단계별로 검증하고 있다. 상세 계획·기록은 [PLAN-diet.md](PLAN-diet.md).
+## Hermes 다이어트 — 완료 (2026-11-08)
 
-- 고정 바닥(N1 입력) 30,186 → **20,061 토큰 (−33.6%)**, B 총점 23.0 유지 (2026-10-25 기준)
-- 완료: 칸반 툴셋 제거(`results/diet-kanban-quick`) · 1단계 스킬 정리(`results/diet-step1-skills`) · 3단계 도구 정리(`results/diet-step3-tools`)
-- 남음: 2단계 SOUL · 4단계 메모리 (사용자 승인 후 진행), 5단계 마감 전체 재실행
+이 벤치로 oxalpha 프로필의 고정 프롬프트 다이어트를 단계별로 검증했다. 상세 계획·기록은 [PLAN-diet.md](PLAN-diet.md).
+
+- 고정 바닥(N1 입력) 30,186 → **17,540 토큰 (−41.9%)**, B 총점 23.0 이상 전 구간 유지 (2단계 런 24.0) — 능력 회귀 없이 프롬프트만 줄었다
+- 전 단계 완료: 칸반 툴셋 제거(`results/diet-kanban-quick`) · 1단계 스킬 정리(`results/diet-step1-skills`) · 3단계 도구 정리(`results/diet-step3-tools`) · 2단계 SOUL 축소 11,017B → 5,673B(`results/diet-step2-soul`, 해당 런 B 24.0) · 4단계 메모리 후보 5건 전부 적용(`results/diet-step4-memory`) · 5단계 마감 A/B 전체 재실행 — 최종 A 23.0 · B 23.0 (`results/diet-step5-final`)
 
 ## 엔진 체크 (engine-checks/)
 
 벤더가 공개한 엔진 수치를 내 기기에서 재현해 보는 별도 트랙. 하니스 결과가 아니며, 조건(상주 서비스·튜닝 상태)을 그대로 명시한다.
 
 - **Locals 0.2.1 내장 벤치** (맥미니 M5 Pro 64GB, Qwen3.5-4B-MLX-4bit, 2026-10-26): 동시 1/2/4/8에서 mlx-lm 대비 1.78x/1.30x/1.42x/1.23x. README 주장 8동시 1.48x는 커널 미튜닝·Strata 상주 조건에서 재현 안 됨 — [engine-checks/locals-2026-10-26](engine-checks/locals-2026-10-26)
+- **VibeVoice-ASR 3-way 체크** (2026-11-09): 7B(FP16) vs BitNet vs Groq whisper-large-v3-turbo — 평균 CER 7B 2.5% · Groq 3.2% · BitNet 24.2%. 내장 화자분리 턴 정확도 34/36으로 pyannote 23/36을 상회 — [engine-checks/vibevoice-asr-2026-11-09.md](engine-checks/vibevoice-asr-2026-11-09.md)
+
+## 확장 트랙 (2026-11-08~13)
+
+- **확장·하드 시나리오 캘리브레이션** (2026-11-08): 코어 24가 천장에 붙어 변별용 세트를 추가 — 확장 12(`scenarios-extended.json`, `results/extended-calibration-2026-11-08.md`) · 하드 12(`scenarios-hard.json`, `results/hard-calibration-2026-11-08.md`)
+- **UD-IQ1_M 실측** (2026-11-08): 초저비트 양자화본은 Strata 서빙이 붕괴해 llama.cpp로 우회 측정 — 코어 23.0 · 확장 10.5 · 하드 11.0 (합계 44.5/48, Gyro-S 46.5) — [results/ud-iq1m-2026-11-08.md](results/ud-iq1m-2026-11-08.md)
+- **Gemma 4 26B-A4B 대결** (2026-11-13): Ollama 러너(`runner_ollama.py`)로 코어 24 측정 — **23.0/24로 Gyro-S와 동점**, 총 시간 71.9초 vs 524.1초. 실패 문항(A3)까지 동일 — [results/gemma4-26b-2026-11-13.md](results/gemma4-26b-2026-11-13.md)
+- **BFCL v3 부분집합 200케이스** (2026-11-13): 공인 벤치 병행 측정 — Gyro-S 89.0% (178/200) vs Gemma 88.5% (177/200), 정답 1건당 시간은 Gemma 3.5초 vs Gyro-S 6.9초 — [results/bfcl-subset-2026-11-13.md](results/bfcl-subset-2026-11-13.md)
+- 그 외 런: DFlash2·MTP 비교(`results/run-20261104-dflash2`, `results/run-20261104-mtp`), Strata 0.1.58 회귀 측정([results/regression-0.1.58-2026-11-08.md](results/regression-0.1.58-2026-11-08.md)), 체크 단위 상세 지표 소급 분석([results/detail-metrics-2026-11-08.md](results/detail-metrics-2026-11-08.md), `analyze.py`)
 
 ## 설계 원칙
 
@@ -29,7 +39,7 @@
    - B에서 Hermes가 실제로 모델에 보내는 스키마와 A의 `tools.json`이 어긋나면(동적 레이어링 등) 그 자체도 기록할 것.
 3. **다른 것은 레이어뿐.** 샘플링 값(A: temperature 0 고정), 최대 턴 수(8)도 양쪽에 동일하게 적용하려 한다. B에서 적용 불가한 항목은 결과표에 명시.
 
-## 시나리오 (총 24개)
+## 시나리오 (코어 24개)
 
 | 카테고리 | 개수 | 보는 것 |
 |---|---|---|
@@ -41,7 +51,7 @@
 | safety | 3 | 위험 명령 거부, 파일 속 인젝션 무시, 키 노출 거부 |
 | recovery | 2 | 오타 경로·빈 파일 같은 실패 상황에서 복구 |
 
-각 시나리오 구조: `setup.files`(샌드박스에 미리 깔 파일), `prompt`(양쪽 공통 요청), `checks`(결과 채점), `strata_expect`(A의 기대 호출 형태 — 기록용).
+각 시나리오 구조: `setup.files`(샌드박스에 미리 깔 파일), `prompt`(양쪽 공통 요청), `checks`(결과 채점), `strata_expect`(A의 기대 호출 형태 — 기록용). 변별용 확장 12·하드 12는 별도 파일(`scenarios-extended.json`·`scenarios-hard.json`)로 관리한다.
 
 ## 채점
 
@@ -61,6 +71,7 @@
 cd ~/toolcall-bench
 python3 runner.py --arm both            # 전체 24개 × 양쪽
 python3 runner.py --arm A --only S1,M2  # 부분 실행
+python3 runner_ollama.py                # Ollama 서빙 모델용 A암 변형 (Gemma 등, 네이티브 /api/chat)
 ```
 
 결과는 `results/<run-id>/`에 시나리오별 기록(record.json·샌드박스·B 이벤트 로그)과 `summary.md`(점수·시간 비교표)로 남는다.
@@ -75,6 +86,8 @@ python3 runner.py --arm A --only S1,M2  # 부분 실행
 
 ## 파일
 
+- `PLAN-diet.md` — Hermes 다이어트 계획·단계별 실행 기록 (2026-11-08 전 단계 완료)
 - `tools.json` — Hermes에서 추출한 도구 정의 5종 (OpenAI function 형식)
-- `scenarios.json` — 시나리오 24개
+- `scenarios.json` — 코어 시나리오 24개 (`scenarios-extended.json` 확장 12 · `scenarios-hard.json` 하드 12)
 - `tools_raw.json` — 추출 원본 (스키마 dict 그대로)
+- `runner.py` — A/B 러너 (Strata·Hermes) / `runner_ollama.py` — Ollama용 A암 변형 / `analyze.py` — 체크 단위 상세 지표 소급 분석
