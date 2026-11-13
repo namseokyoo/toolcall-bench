@@ -1,0 +1,27 @@
+{
+ "simple": {
+  "accuracy": 0.98,
+  "correct": 49,
+  "n": 50
+ },
+ "multiple": {
+  "accuracy": 0.96,
+  "correct": 48,
+  "n": 50
+ },
+ "parallel": {
+  "accuracy": 0.8,
+  "correct": 40,
+  "n": 50
+ },
+ "parallel_multiple": {
+  "accuracy": 0.8,
+  "correct": 40,
+  "n": 50
+ },
+ "overall": {
+  "accuracy": 0.885,
+  "correct": 177,
+  "n": 200
+ }
+}
