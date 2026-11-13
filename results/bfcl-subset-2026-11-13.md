@@ -7,7 +7,7 @@
 - 부분집합: BFCL v3 AST 카테고리 4종 × 각 50개 = 200케이스 (simple/multiple/parallel/parallel_multiple, ID 0–49 고정 — `results/run-20261113-bfcl/ids_full.json`)
 - 온도 0, 단발(single-turn) 네이티브 함수호출, 동시 10스레드
 - Gyro-S: Strata :8080 OpenAI 호환 엔드포인트 (상주 서빙 그대로)
-- Gemma 4 26B-A4B Q4_K_M: Ollama :11434 OpenAI 호환 엔드포인트 — **이 경로는 think off 불가**(thinking 포함 측정). 우리 코어 24의 네이티브 API(think off) 조건과 다름
+- Gemma 4 26B-A4B NVFP4: Ollama :11434 OpenAI 호환 엔드포인트 — **이 경로는 think off 불가**(thinking 포함 측정). 우리 코어 24의 네이티브 API(think off) 조건과 다름
 - 연결 방식: bfcl-eval OSS 경로는 프롬프팅 전용이라, 두 모델을 API 모델로 등록(OpenAICompletionsHandler + OPENAI_BASE_URL)해 네이티브 FC로 측정. 함수명의 점(.)은 하네스가 밑줄로 바꿔 보내고 채점 시 되돌림(underscore_to_dot=True — 공식 설정)
 - 부분집합 채점은 공식 `ast_file_runner`를 부분집합에 직접 호출 (이 버전 CLI에 partial-eval 없음)
 
